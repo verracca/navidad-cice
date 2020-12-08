@@ -1,0 +1,25 @@
+@import url("https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap");
+
+.app-container {
+  display: flex;
+  justify-content: space-around;
+}
+
+.arbol-container {
+  display: flex;
+  justify-content: center;
+}
+
+.esfera-container {
+  display: flex;
+  justify-content: center;
+}
+
+.title {
+  font-family: "Dancing Script", cursive;
+  color: rgba(255, 255, 255, 0.699);
+}
+
+.pointer {
+  cursor: cell;
+}
