@@ -1,8 +1,12 @@
+html {
+  overflow: scroll;
+  overflow-y: hidden;
+  overflow-x: hidden;
+}
+
 body {
-  margin: 0;
   background-image: url("background.jpg");
   background-size: cover;
-  background-position: center;
   background-repeat: no-repeat;
   height: 100vh;
 }

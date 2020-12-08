@@ -1,4 +1,3 @@
-import { Component } from "react";
 import "./ArbolComponent.css";
 import arbol from "./xmastree.png";
 
@@ -55,6 +54,7 @@ const clickOnThree = (e) => {
 
 function ArbolComponent({ onAddAdorno, children }) {
   const onClick = (e) => {
+    console.log("arbol");
     const coords = clickOnThree(e);
     if (coords) {
       onAddAdorno?.(coords);

@@ -1,11 +1,37 @@
 import React, { useState } from "react";
+import {
+  Typography,
+  Grid,
+  Container,
+  createMuiTheme,
+  ThemeProvider,
+} from "@material-ui/core";
 import "./App.css";
 import ArbolComponent from "../Arbol/ArbolComponent";
 import EsferaComponent from "../Esfera/EsferaComponent";
 import AdornoComponent from "../Adorno/AdornoComponent";
-import { Typography, Grid, Container } from "@material-ui/core";
+import MessageDialog from "./../MessageDialog/MessageDialog";
+import MousePointer from "../MousePointer/MousePointer";
 
-const adornos = [
+const theme = createMuiTheme({
+  overrides: {
+    MuiPaper: {
+      root: {
+        backgroundColor: "transparent",
+      },
+      elevation24: {
+        boxShadow: 0,
+      },
+    },
+    MuiBackdrop: {
+      root: {
+        backgroundColor: "rgba(0, 0, 0, 0.8)",
+      },
+    },
+  },
+});
+
+const adornosDefault = [
   {
     x: 47,
     y: 18,
@@ -36,20 +62,35 @@ const adornos = [
 function App() {
   const [userMessage, setUserMessage] = useState("");
   const [pointer, setPointer] = useState(false);
-
-  const onAddAdorno = ({ x, y }) => {
-    // mando a la base de datos el nuevo mensaje con
-    // la posicion x,y y el mensaje que tengo almacenado
-    // en algun OTRO lado
-  };
+  const [adornos, setAdornos] = useState(adornosDefault);
+  const [modalMessage, setModalMessage] = useState("");
 
   const onAddMessage = (message) => {
     setUserMessage(message);
     setPointer(true);
   };
 
+  const onAddAdorno = ({ x, y }) => {
+    if (pointer) {
+      setAdornos([...adornos, { x: x, y: y, message: userMessage }]);
+      setPointer(false);
+    }
+
+    // mando a la base de datos el nuevo mensaje con
+    // la posicion x,y y el mensaje que tengo almacenado
+    // en algun OTRO lado
+  };
+
+  const openModal = (message) => {
+    setModalMessage(message);
+  };
+
+  const closeModal = () => {
+    setModalMessage("");
+  };
+
   return (
-    <>
+    <ThemeProvider theme={theme}>
       <Container
         className={`app-container ${pointer ? "pointer" : ""}`}
         maxWidth="xl"
@@ -66,7 +107,12 @@ function App() {
           <Grid item xs={6} className="arbol-container">
             <ArbolComponent onAddAdorno={onAddAdorno}>
               {adornos.map((adorno, index) => (
-                <AdornoComponent key={index} {...adorno} />
+                <AdornoComponent
+                  key={index}
+                  {...adorno}
+                  disabled={pointer}
+                  onClick={openModal}
+                />
               ))}
             </ArbolComponent>
           </Grid>
@@ -77,8 +123,11 @@ function App() {
           </Grid>
         </Grid>
       </Container>
-      {/* <MousePointer /> */}
-    </>
+      {modalMessage && (
+        <MessageDialog message={modalMessage} onClose={closeModal} />
+      )}
+      {/* {pointer && <MousePointer />} */}
+    </ThemeProvider>
   );
 }
 
