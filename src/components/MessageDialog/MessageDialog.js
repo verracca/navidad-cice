@@ -5,13 +5,13 @@ import Grid from "@material-ui/core/Grid";
 import "../Esfera/EsferaStyles.css";
 import Slide from "@material-ui/core/Slide";
 
-import esfera from "../../assets/esfera.png";
+// import esfera from "../../assets/esfera.png";
 
 const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="down" ref={ref} {...props} />;
 });
 
-export default function MessageDialog({ onClose, message }) {
+export default function MessageDialog({ onClose, message, imgSrc }) {
   return (
     <div>
       <Dialog
@@ -23,7 +23,7 @@ export default function MessageDialog({ onClose, message }) {
         <Grid container item display="flex" justify="center">
           <div id="esfera" className="esfera-container">
             <img
-              src={esfera}
+              src={imgSrc}
               alt="Esfera"
               className="esfera-img"
               draggable="false"

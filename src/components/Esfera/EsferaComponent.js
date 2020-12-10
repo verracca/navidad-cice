@@ -2,14 +2,13 @@ import React, { useState } from "react";
 import { Typography, Button, Grid, TextField } from "@material-ui/core";
 import "./EsferaStyles.css";
 
-import esfera from "../../assets/esfera.png";
 
-function EsferaComponent({ onAddMessage }) {
+function EsferaComponent({ onAddMessage, imgSrc }) {
   const [message, setMessage] = useState("");
 
   return (
     <div id="esfera" className="esfera-container">
-      <img src={esfera} alt="Esfera" className="esfera-img" draggable="false" />
+      <img src={imgSrc} alt="Esfera" className="esfera-img" draggable="false" />
       <Grid className="form-container">
         <Typography variant="h6" style={{ color: "whitesmoke" }}>
           Pon en palabras tu deseo!

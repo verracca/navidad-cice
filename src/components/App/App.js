@@ -12,7 +12,13 @@ import ArbolComponent from "../Arbol/ArbolComponent";
 import EsferaComponent from "../Esfera/EsferaComponent";
 import AdornoComponent from "../Adorno/AdornoComponent";
 import MessageDialog from "./../MessageDialog/MessageDialog";
-// import MousePointer from "../MousePointer/MousePointer";
+import esfera from "../../assets/esfera.png";
+import esferaVerde from "../../assets/esferaVerde.png";
+import esferaGorro from "../../assets/esferaGorro.png";
+import pointer0 from "../../assets/pointer0.png";
+import pointer1 from "../../assets/pointer1.png";
+import pointer2 from "../../assets/pointer2.png";
+
 import firebase from "firebase";
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -89,11 +95,24 @@ theme.typography.h3 = {
   },
 };
 
+const images = [esfera, esferaVerde, esferaGorro];
+const pointers = [pointer0, pointer1, pointer2];
+
+const getRandomInt = (min, max) =>
+  Math.floor(Math.random() * (max - min)) + min;
+
+const selectedImgNum = getRandomInt(0, images.length);
+
+const getImg = (imgNum = selectedImgNum) => images[imgNum];
+
+const getPointer = () => pointers[selectedImgNum];
+
 function App() {
   const [userMessage, setUserMessage] = useState("");
   const [pointer, setPointer] = useState(false);
   const [adornos, setAdornos] = useState([]);
   const [modalMessage, setModalMessage] = useState("");
+  const [modalImg, setModalImg] = useState(0);
 
   const location = useLocation();
   const messages = useRef(
@@ -122,6 +141,7 @@ function App() {
   const onAddAdorno = ({ x, y }) => {
     if (pointer) {
       messages.current.push({
+        imgSrc: selectedImgNum,
         x: x,
         y: y,
         message: userMessage,
@@ -130,8 +150,9 @@ function App() {
     }
   };
 
-  const openModal = (message) => {
+  const openModal = (message, imgSrc) => {
     setModalMessage(message);
+    setModalImg(imgSrc);
   };
 
   const closeModal = () => {
@@ -141,7 +162,10 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <Container
-        className={`app-container ${pointer ? "pointer" : ""}`}
+        className={`app-container`}
+        style={{
+          cursor: pointer && `url(${getPointer()}), auto`,
+        }}
         maxWidth="xl"
       >
         <Typography align="center" variant="h3">
@@ -154,6 +178,7 @@ function App() {
                 <AdornoComponent
                   key={index}
                   {...adorno}
+                  imgSrc={getImg(adorno.imgSrc)}
                   disabled={pointer}
                   onClick={openModal}
                 />
@@ -162,13 +187,17 @@ function App() {
           </Grid>
           <Grid item xs={12} md={6} className="esfera-container">
             {userMessage ? undefined : (
-              <EsferaComponent onAddMessage={onAddMessage} />
+              <EsferaComponent onAddMessage={onAddMessage} imgSrc={getImg()} />
             )}
           </Grid>
         </Grid>
       </Container>
       {modalMessage && (
-        <MessageDialog message={modalMessage} onClose={closeModal} />
+        <MessageDialog
+          message={modalMessage}
+          imgSrc={modalImg}
+          onClose={closeModal}
+        />
       )}
     </ThemeProvider>
   );

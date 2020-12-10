@@ -1,12 +1,19 @@
 import { ButtonBase } from "@material-ui/core";
-import esfera from "../../assets/esfera.png";
 
-function AdornoComponent({ x, y, message, disabled, onClick, size = 6 }) {
+function AdornoComponent({
+  x,
+  y,
+  message,
+  disabled,
+  imgSrc,
+  onClick,
+  size = 6,
+}) {
   const onPressed = (e) => {
     e.stopPropagation();
     if (!disabled) {
       //showModal
-      onClick?.(message);
+      onClick?.(message, imgSrc);
     }
   };
 
@@ -22,7 +29,7 @@ function AdornoComponent({ x, y, message, disabled, onClick, size = 6 }) {
       onClick={onPressed}
     >
       <img
-        src={esfera}
+        src={imgSrc}
         alt="EsferaChica"
         className="esferachica-img"
         style={{
