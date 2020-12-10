@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Typography,
   Grid,
@@ -11,9 +11,45 @@ import ArbolComponent from "../Arbol/ArbolComponent";
 import EsferaComponent from "../Esfera/EsferaComponent";
 import AdornoComponent from "../Adorno/AdornoComponent";
 import MessageDialog from "./../MessageDialog/MessageDialog";
-import MousePointer from "../MousePointer/MousePointer";
+// import MousePointer from "../MousePointer/MousePointer";
+import firebase from "firebase";
+// Your web app's Firebase configuration
+const firebaseConfig = {
+  apiKey: "AIzaSyCIA_Wcy9pbfzO2cdNeePCVpzoEn41bZ2U",
+  authDomain: "navidad-cice.firebaseapp.com",
+  projectId: "navidad-cice",
+  storageBucket: "navidad-cice.appspot.com",
+  messagingSenderId: "675258996631",
+  appId: "1:675258996631:web:eb0e0a352450ba26c0d6d2",
+};
+
+firebase.initializeApp(firebaseConfig);
+
+// Get a reference to the database service
+const messages = firebase.database().ref("messages");
 
 const theme = createMuiTheme({
+  palette: {
+    primary: {
+      main: "#fafafa",
+    },
+  },
+
+  typography: {
+    fontFamily: [
+      "-apple-system",
+      "BlinkMacSystemFont",
+      '"Segoe UI"',
+      "Roboto",
+      '"Helvetica Neue"',
+      "Arial",
+      "sans-serif",
+      '"Apple Color Emoji"',
+      '"Segoe UI Emoji"',
+      '"Segoe UI Symbol"',
+    ].join(","),
+    fontSize: 12,
+  },
   overrides: {
     MuiPaper: {
       root: {
@@ -28,42 +64,46 @@ const theme = createMuiTheme({
         backgroundColor: "rgba(0, 0, 0, 0.8)",
       },
     },
+    MuiInputBase: {
+      root: {
+        color: "whitesmoke",
+      },
+    },
+    Mui: {
+      focused: {
+        color: "whitesmoke",
+      },
+    },
   },
 });
 
-const adornosDefault = [
-  {
-    x: 47,
-    y: 18,
-    message: "Happy xmas",
+theme.typography.h3 = {
+  fontSize: "3rem",
+  color: "#F9F6F1",
+  fontFamily: "Dancing Script",
+
+  [theme.breakpoints.up("md")]: {
+    fontSize: "4rem",
+    color: "#F9F6F1",
+    fontFamily: "Dancing Script",
   },
-  {
-    x: 20,
-    y: 85,
-    message: "Frosty the snowman",
-  },
-  {
-    x: 85,
-    y: 85,
-    message: "It´s beggining to look a lot like xmas",
-  },
-  {
-    x: 45,
-    y: 60,
-    message: "It´s beggining to look a lot like xmas",
-  },
-  {
-    x: 40,
-    y: 70,
-    message: "It´s beggining to look a lot like xmas",
-  },
-];
+};
 
 function App() {
   const [userMessage, setUserMessage] = useState("");
   const [pointer, setPointer] = useState(false);
-  const [adornos, setAdornos] = useState(adornosDefault);
+  const [adornos, setAdornos] = useState([]);
   const [modalMessage, setModalMessage] = useState("");
+
+  useEffect(() => {
+    messages.on("value", (snapshot) => {
+      const dbValues = snapshot.val();
+      if (dbValues) {
+        const messages = Object.values(dbValues);
+        setAdornos(messages);
+      }
+    });
+  }, []);
 
   const onAddMessage = (message) => {
     setUserMessage(message);
@@ -72,13 +112,13 @@ function App() {
 
   const onAddAdorno = ({ x, y }) => {
     if (pointer) {
-      setAdornos([...adornos, { x: x, y: y, message: userMessage }]);
+      messages.push({
+        x: x,
+        y: y,
+        message: userMessage,
+      });
       setPointer(false);
     }
-
-    // mando a la base de datos el nuevo mensaje con
-    // la posicion x,y y el mensaje que tengo almacenado
-    // en algun OTRO lado
   };
 
   const openModal = (message) => {
@@ -95,16 +135,11 @@ function App() {
         className={`app-container ${pointer ? "pointer" : ""}`}
         maxWidth="xl"
       >
-        <Typography
-          align="center"
-          variant="h1"
-          style={{ fontFamily: "Dancing Script" }}
-          className="title"
-        >
-          Adorna este árbol navideño con tus deseos
+        <Typography align="center" variant="h3">
+          Adorna nuestro árbol navideño con tus deseos...
         </Typography>
-        <Grid container justify="space-around">
-          <Grid item xs={6} className="arbol-container">
+        <Grid container md={12} item>
+          <Grid item xs={12} md={6} className="arbol-container">
             <ArbolComponent onAddAdorno={onAddAdorno}>
               {adornos.map((adorno, index) => (
                 <AdornoComponent
@@ -116,7 +151,7 @@ function App() {
               ))}
             </ArbolComponent>
           </Grid>
-          <Grid item xs={6} className="esfera-container">
+          <Grid item xs={12} md={6} className="esfera-container">
             {userMessage ? undefined : (
               <EsferaComponent onAddMessage={onAddMessage} />
             )}

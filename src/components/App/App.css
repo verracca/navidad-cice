@@ -15,11 +15,7 @@
   justify-content: center;
 }
 
-.title {
-  font-family: "Dancing Script", cursive;
-  color: rgba(255, 255, 255, 0.699);
-}
 
 .pointer {
-  cursor: url("./esfera-pointer32.png"), auto;
+  cursor: url("../../assets/esfera-pointer32.png"), auto;
 }

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Typography, Button, Grid, TextField } from "@material-ui/core";
 import "./EsferaStyles.css";
 
-import esfera from "./esfera.png";
+import esfera from "../../assets/esfera.png";
 
 function EsferaComponent({ onAddMessage }) {
   const [message, setMessage] = useState("");
@@ -15,8 +15,9 @@ function EsferaComponent({ onAddMessage }) {
           Pon en palabras tu deseo!
         </Typography>
         <TextField
-          id="message"
+          color="primary"
           variant="outlined"
+          id="message"
           onChange={(event) => setMessage(event.target.value)}
         />
         <Button

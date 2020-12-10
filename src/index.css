@@ -5,8 +5,20 @@ html {
 }
 
 body {
-  background-image: url("background.jpg");
+  background: url("./assets/background.jpg") no-repeat center center fixed;
   background-size: cover;
-  background-repeat: no-repeat;
   height: 100vh;
+}
+
+@media only screen and (max-width: 768px) {
+  html {
+    overflow: scroll;
+  }
+
+  body {
+    background-image: url("./assets/background.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 100vh;
+  }
 }

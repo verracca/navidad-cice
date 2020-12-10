@@ -1,5 +1,5 @@
 import { ButtonBase } from "@material-ui/core";
-import esfera from "./esfera.png";
+import esfera from "../../assets/esfera.png";
 
 function AdornoComponent({ x, y, message, disabled, onClick, size = 6 }) {
   const onPressed = (e) => {
@@ -7,7 +7,6 @@ function AdornoComponent({ x, y, message, disabled, onClick, size = 6 }) {
     if (!disabled) {
       //showModal
       onClick?.(message);
-      console.log(message);
     }
   };
 

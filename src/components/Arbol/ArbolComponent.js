@@ -1,5 +1,5 @@
 import "./ArbolComponent.css";
-import arbol from "./xmastree.png";
+import arbol from "../../assets/xmastree.png";
 
 // Returns true if point P inside the triangle with vertices at A, B and C
 // representing 2D vectors and points as [x,y]. Based on
@@ -54,11 +54,9 @@ const clickOnThree = (e) => {
 
 function ArbolComponent({ onAddAdorno, children }) {
   const onClick = (e) => {
-    console.log("arbol");
     const coords = clickOnThree(e);
     if (coords) {
       onAddAdorno?.(coords);
-      console.log("ADENTRO DEL ARBOL", coords);
     }
   };
 
