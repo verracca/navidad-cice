@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
+import { useLocation } from "react-router-dom";
 import {
   Typography,
   Grid,
@@ -24,9 +25,6 @@ const firebaseConfig = {
 };
 
 firebase.initializeApp(firebaseConfig);
-
-// Get a reference to the database service
-const messages = firebase.database().ref("messages");
 
 const theme = createMuiTheme({
   palette: {
@@ -70,8 +68,10 @@ const theme = createMuiTheme({
       },
     },
     Mui: {
-      focused: {
-        color: "whitesmoke",
+      root: {
+        "&$focused": {
+          color: "whitesmoke",
+        },
       },
     },
   },
@@ -95,15 +95,24 @@ function App() {
   const [adornos, setAdornos] = useState([]);
   const [modalMessage, setModalMessage] = useState("");
 
+  const location = useLocation();
+  const messages = useRef(
+    firebase
+      .database()
+      .ref(`${location.pathname.replace("/", "") || "public"}/messages`)
+  );
+
+  console.log();
+
   useEffect(() => {
-    messages.on("value", (snapshot) => {
+    return messages.current.on("value", (snapshot) => {
       const dbValues = snapshot.val();
       if (dbValues) {
         const messages = Object.values(dbValues);
         setAdornos(messages);
       }
     });
-  }, []);
+  }, [messages]);
 
   const onAddMessage = (message) => {
     setUserMessage(message);
@@ -112,7 +121,7 @@ function App() {
 
   const onAddAdorno = ({ x, y }) => {
     if (pointer) {
-      messages.push({
+      messages.current.push({
         x: x,
         y: y,
         message: userMessage,
@@ -161,7 +170,6 @@ function App() {
       {modalMessage && (
         <MessageDialog message={modalMessage} onClose={closeModal} />
       )}
-      {/* {pointer && <MousePointer />} */}
     </ThemeProvider>
   );
 }
