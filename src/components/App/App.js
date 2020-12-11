@@ -169,7 +169,7 @@ function App() {
         maxWidth="xl"
       >
         <Typography align="center" variant="h3">
-          🎅¡Compartí tu deseo de Navidad en el arbolito de CICE!🎅
+          🎅¡Comparte tu deseo de Navidad en el arbolito de CICE!🎅
         </Typography>
         <Grid container md={12} item>
           <Grid item xs={12} md={6} className="arbol-container">
