@@ -169,7 +169,7 @@ function App() {
         maxWidth="xl"
       >
         <Typography align="center" variant="h3">
-          Adorna nuestro árbol navideño con tus deseos...
+          🎅¡Compartí tu deseo de Navidad en el arbolito de CICE!🎅
         </Typography>
         <Grid container md={12} item>
           <Grid item xs={12} md={6} className="arbol-container">
@@ -178,7 +178,7 @@ function App() {
                 <AdornoComponent
                   key={index}
                   {...adorno}
-                  imgSrc={getImg(adorno.imgSrc)}
+                  imgSrc={getImg(adorno.imgSrc || 0)}
                   disabled={pointer}
                   onClick={openModal}
                 />

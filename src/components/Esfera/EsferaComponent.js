@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { Typography, Button, Grid, TextField } from "@material-ui/core";
 import "./EsferaStyles.css";
 
-
 function EsferaComponent({ onAddMessage, imgSrc }) {
   const [message, setMessage] = useState("");
 
@@ -30,7 +29,7 @@ function EsferaComponent({ onAddMessage, imgSrc }) {
           disabled={!message}
           onClick={() => onAddMessage(message)}
         >
-          Colócame en el arbol!
+          Colócame en el árbol!
         </Button>
       </Grid>
     </div>
