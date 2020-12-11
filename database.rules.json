@@ -1,12 +1,12 @@
 {
   "rules": {
-    "$uid":{
+    "$uid": {
       ".read": true,
-       "messages": {
-              "$pushId": {
-          				".write": "!data.exists()"
-     					}
-       	}
+      "messages": {
+        "$pushId": {
+          ".write": "!data.exists()"
+        }
+      }
     }
   }
 }
