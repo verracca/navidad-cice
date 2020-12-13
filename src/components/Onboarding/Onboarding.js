@@ -33,9 +33,9 @@ export default function MessageDialog({ onClose }) {
                 }}
               >
                 ¡Hola! ¿Quieres compartir tu deseo navideño con la comunidad
-                CICE? Es simple! Deja tu mensaje en la esfera, haz click en el
-                botón, y luego en el árbol! Asi todos podran ver tu mensaje y
-                tu, el de los demás. HOHOHO
+                CICE? Es simple! Deja tu mensaje en la bolita, haz click en el
+                botón, y luego en el árbol! Asi todos podrán ver tu mensaje y
+                tú, el de los demás. HOHOHO
               </Typography>
             </Grid>
           </div>

@@ -10,7 +10,7 @@ function EsferaComponent({ onAddMessage, imgSrc }) {
       <img src={imgSrc} alt="Esfera" className="esfera-img" draggable="false" />
       <Grid className="form-container">
         <Typography variant="h6" style={{ color: "whitesmoke" }}>
-          Pon en palabras tu deseo!
+          Pon en palabras tu deseo
         </Typography>
         <TextField
           color="primary"
@@ -29,7 +29,7 @@ function EsferaComponent({ onAddMessage, imgSrc }) {
           disabled={!message}
           onClick={() => onAddMessage(message)}
         >
-          Colócame en el árbol!
+          Colócame en el árbol
         </Button>
       </Grid>
     </div>
