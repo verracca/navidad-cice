@@ -19,11 +19,6 @@
   cursor: url("../../assets/esfera-pointer32.png"), auto;
 }
 
-.sumButton {
-  background-color: #ff5252;
-  color: antiquewhite;
-  border-radius: 50%;
-}
 
 .title {
   align-self: center;
