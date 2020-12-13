@@ -1,17 +1,18 @@
 import React, { useEffect, useState, useRef } from "react";
 import { useLocation } from "react-router-dom";
 import {
-  Typography,
-  Grid,
   Container,
   createMuiTheme,
+  Grid,
   ThemeProvider,
+  Typography,
 } from "@material-ui/core";
 import "./App.css";
 import ArbolComponent from "../Arbol/ArbolComponent";
 import EsferaComponent from "../Esfera/EsferaComponent";
 import AdornoComponent from "../Adorno/AdornoComponent";
-import MessageDialog from "./../MessageDialog/MessageDialog";
+import MessageDialog from "../MessageDialog/MessageDialog";
+import Onboarding from "../Onboarding/Onboarding";
 import esfera from "../../assets/esfera.png";
 import esferaVerde from "../../assets/esferaVerde.png";
 import esferaGorro from "../../assets/esferaGorro.png";
@@ -101,18 +102,19 @@ const pointers = [pointer0, pointer1, pointer2];
 const getRandomInt = (min, max) =>
   Math.floor(Math.random() * (max - min)) + min;
 
-const selectedImgNum = getRandomInt(0, images.length);
-
-const getImg = (imgNum = selectedImgNum) => images[imgNum];
-
-const getPointer = () => pointers[selectedImgNum];
-
 function App() {
   const [userMessage, setUserMessage] = useState("");
   const [pointer, setPointer] = useState(false);
   const [adornos, setAdornos] = useState([]);
   const [modalMessage, setModalMessage] = useState("");
   const [modalImg, setModalImg] = useState(0);
+  const [showOnboarding, setShowOnboarding] = useState(true);
+  const [selectedImgNum, setSelectedImgNum] = useState(
+    getRandomInt(0, images.length)
+  );
+
+  const getImg = (imgNum = selectedImgNum) => images[imgNum];
+  const getPointer = () => pointers[selectedImgNum];
 
   const location = useLocation();
   const messages = useRef(
@@ -147,6 +149,7 @@ function App() {
         message: userMessage,
       });
       setPointer(false);
+      setSelectedImgNum(getRandomInt(0, images.length));
     }
   };
 
@@ -159,6 +162,10 @@ function App() {
     setModalMessage("");
   };
 
+  const closeOnboarding = () => {
+    setShowOnboarding(false);
+  };
+
   return (
     <ThemeProvider theme={theme}>
       <Container
@@ -168,10 +175,12 @@ function App() {
         }}
         maxWidth="xl"
       >
-        <Typography align="center" variant="h3">
-          🎅¡Comparte tu deseo de Navidad en el arbolito de CICE!🎅
-        </Typography>
-        <Grid container md={12} item>
+        <div className="title">
+          <Typography align="center" variant="h3">
+            🎅¡Comparte tu deseo de Navidad en el arbolito de CICE!🎅
+          </Typography>
+        </div>
+        <Grid container xs={12} item>
           <Grid item xs={12} md={6} className="arbol-container">
             <ArbolComponent onAddAdorno={onAddAdorno}>
               {adornos.map((adorno, index) => (
@@ -185,8 +194,14 @@ function App() {
               ))}
             </ArbolComponent>
           </Grid>
-          <Grid item xs={12} md={6} className="esfera-container">
-            {userMessage ? undefined : (
+          <Grid
+            item
+            xs={12}
+            md={6}
+            className="esfera-container"
+            display={{ xs: "none", md: "block" }}
+          >
+            {!pointer && (
               <EsferaComponent onAddMessage={onAddMessage} imgSrc={getImg()} />
             )}
           </Grid>
@@ -199,6 +214,7 @@ function App() {
           onClose={closeModal}
         />
       )}
+      {showOnboarding && <Onboarding onClose={closeOnboarding} />}
     </ThemeProvider>
   );
 }
